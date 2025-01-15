@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomHttpResponseException;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -18,10 +19,7 @@ class UserController extends Controller
         $user = User::where('username', $data['username'])->first();
         
         if (!$user || !password_verify($data['password'], $user->password)) {
-            throw new HttpResponseException(response([
-                'status' => 'error',
-                'message' => 'Username or password is incorrect',
-            ], 401));
+            throw new CustomHttpResponseException('Username or password is incorrect', 400);
         }
         
         $user->token = Str::uuid()->toString();

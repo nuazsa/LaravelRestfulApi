@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\CustomHttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -31,9 +32,6 @@ class UserLoginRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response([
-            'status' => 'error',
-            'message' => $validator->errors()->first(),
-        ], 400));
+        throw new CustomHttpResponseException($validator->errors()->first(), 400);
     }
 }

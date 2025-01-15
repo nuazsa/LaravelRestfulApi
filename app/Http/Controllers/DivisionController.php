@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomHttpResponseException;
 use App\Http\Resources\DivisionResource;
 use Illuminate\Http\Request;
 use App\Models\Division;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class DivisionController extends Controller
 {
@@ -21,10 +21,7 @@ class DivisionController extends Controller
         $divisions = $query->paginate(2);
 
         if ($divisions->total() === 0) {
-            throw new HttpResponseException(response([
-                'status' => 'error',
-                'message' => 'Data not found',
-            ], 404));
+            throw new CustomHttpResponseException('Data not found', 404);
         }
 
         return new DivisionResource($divisions);
