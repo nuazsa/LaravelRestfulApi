@@ -13,6 +13,8 @@ class User extends Model implements Authenticatable
 
     public $incrementing = false;
 
+    public $fillable = ['token'];
+
     public function getAuthIdentifierName()
     {
         return 'username';
