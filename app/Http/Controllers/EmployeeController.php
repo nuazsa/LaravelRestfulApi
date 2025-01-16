@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\EmployeeCollection;
 use App\Exceptions\CustomHttpResponseException;
 use App\Http\Requests\EmployeeCreateRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Support\Str;
 
@@ -54,5 +56,58 @@ class EmployeeController extends Controller
         } catch (\Exception $e) {
             throw new CustomHttpResponseException('Failed to create employee: ' . $e->getMessage(), 500);
         }
+    }
+
+    public function update(EmployeeUpdateRequest $request, $id): JsonResponse
+    {
+        $data = $request->validated();
+        $employee = Employee::findOrFail($id);
+        
+        $isChanged = false;
+        
+        if ($request->hasFile('image')) {
+            if ($employee->image) {
+                Storage::disk('public')->delete($employee->image);
+            }
+        
+            $data['image'] = $request->file('image')->store('employees', 'public');
+            if ($employee->image !== $data['image']) {
+                $employee->image = $data['image'];
+                $isChanged = true;
+            }
+        }
+        
+        if (isset($data['name']) && $employee->name !== $data['name']) {
+            $employee->name = $data['name'];
+            $isChanged = true;
+        }
+        
+        if (isset($data['phone']) && $employee->phone !== $data['phone']) {
+            $employee->phone = $data['phone'];
+            $isChanged = true;
+        }
+        
+        if (isset($data['division']) && $employee->division_id !== $data['division']) {
+            $employee->division_id = $data['division'];
+            $isChanged = true;
+        }
+        
+        if (isset($data['position']) && $employee->position !== $data['position']) {
+            $employee->position = $data['position'];
+            $isChanged = true;
+        }
+        
+        if ($isChanged) {
+            $employee->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data updated successfully',
+            ], 200);
+        }
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'No changes were made to the data',
+        ], 200);        
     }
 }
