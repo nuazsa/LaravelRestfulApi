@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomHttpResponseException;
+use App\Helpers\ResponseHelper;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,10 @@ class UserController extends Controller
 {
     public function login(UserLoginRequest $request): UserResource
     {
+        if ($request->hasHeader('Authorization')) {
+            throw new CustomHttpResponseException('Authorization header is not allowed for this request', 403);
+        }
+
         $data = $request->validated();
 
         $user = User::where('username', $data['username'])->first();
@@ -30,22 +34,12 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
-        try {
-            $user = Auth::user();
-    
-            $user->update(['token' => null]);
-    
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Successfully logged out',
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to log out: ' . $e->getMessage(),
-            ], 500);
-        }
+        $user = Auth::user();
+
+        $user->update(['token' => null]);
+
+        return ResponseHelper::success('Successfully logged out', null, 200);
     }
 }

@@ -3,7 +3,7 @@
 > An API designed to manage employee information efficiently and effectively.
 
 ## Endpoint
-`http://127.0.0.1:8000/api`
+`https://laravelrestfulapi-production.up.railway.app`
 ### Login
 - URL
     - `/login`

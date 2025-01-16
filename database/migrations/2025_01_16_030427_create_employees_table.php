@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('position');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->uuid('division_id');
             $table->timestamps();
         });

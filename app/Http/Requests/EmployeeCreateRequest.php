@@ -24,10 +24,10 @@ class EmployeeCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'max:15'],
-            'division' => ['required', 'exists:divisions,id'],
+            'division_id' => ['required', 'exists:divisions,id'],
             'position' => ['required', 'string', 'max:255']
         ];
     }
