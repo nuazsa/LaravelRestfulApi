@@ -12,6 +12,10 @@ class Employee extends Model
 
     public $incrementing = false;
 
+    public $fillable = [
+        'id', 'image', 'name', 'phone', 'division_id', 'position'
+    ];
+
     public function division() {
         return $this->belongsTo(Division::class);
     }

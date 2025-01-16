@@ -20,4 +20,5 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     
     // Employees
     Route::get('/employees', [EmployeeController::class, 'get']);
+    Route::post('/employees', [EmployeeController::class, 'create']);
 });
