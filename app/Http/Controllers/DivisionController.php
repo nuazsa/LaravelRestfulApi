@@ -10,7 +10,7 @@ use App\Models\Division;
 class DivisionController extends Controller
 {
     
-    public function index(Request $request): DivisionResource
+    public function get(Request $request): DivisionResource
     {
         $query = Division::query();
 
