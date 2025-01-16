@@ -110,4 +110,24 @@ class EmployeeController extends Controller
             'message' => 'No changes were made to the data',
         ], 200);        
     }
+
+    public function delete($id): JsonResponse
+    {
+        $employee = Employee::findOrFail($id);
+
+        try {
+            if ($employee->image) {
+                Storage::disk('public')->delete($employee->image);
+            }
+
+            $employee->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Employee deleted successfully',
+            ], 200);
+        } catch (\Throwable $e) {
+            throw new CustomHttpResponseException('Failed to delete employee: ' . $e->getMessage(), 500);
+        }
+    }
 }

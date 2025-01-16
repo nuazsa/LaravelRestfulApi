@@ -22,4 +22,5 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/employees', [EmployeeController::class, 'get']);
     Route::post('/employees', [EmployeeController::class, 'create']);
     Route::put('/employees/{id}', [EmployeeController::class, 'update']);
+    Route::delete('/employees/{id}', [EmployeeController::class, 'delete']);
 });
