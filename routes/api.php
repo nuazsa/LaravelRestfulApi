@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Controllers\NilaiController;
 
 Route::get('/ping', function () {
     return response()->json([
@@ -27,3 +28,6 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     // Logout
     Route::post('/logout', [UserController::class, 'logout']);
 });
+
+Route::get('/nilaiRT', [NilaiController::class, 'getNilaiRT']);
+Route::get('/nilaiST', [NilaiController::class, 'getNilaiST']);
