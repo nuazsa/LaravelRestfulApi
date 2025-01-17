@@ -201,3 +201,50 @@
     "message": "pesan sukses / error",
 }
 ```
+
+## SQL Advance
+### Instruction
+- Untuk nilai RT menggunakan *materi_uji_id 7*, tetapi tidak mengikutkan *pelajaran_khusus*
+- Untuk nilai ST menggunakan *materi_uji_id 4*
+    - untuk *pelajaran_id 44 dikali 41.67*
+    - untuk *pelajaran_id 45 dikali 29.67*
+    - untuk *pelajaran_id 46 dikali 100*
+    - untuk *pelajaran_id 47 dikali 23.81*
+    - hasil akhir harus diurutkan dari total nilai terbesar
+
+### /nilaiRT
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "nama": "Ahmad Fadlan",
+            "nisn": "3097012709",
+            "nilaiRT": {
+                "REALISTIC": "4",
+                "INVESTIGATIVE": "2",
+                "ARTISTIC": "2",
+                "SOCIAL": "2",
+                "ENTERPRISING": "4",
+                "CONVENTIONAL": "2"
+            }
+        }
+    ]
+}
+```
+### /nilaiST
+```
+[
+    {
+    "nama": "Muhammad Sanusi",
+    "nisn": "0094494403",
+    "listNilai": {
+        "Verbal": 208.35,
+        "Kuantitatif": 89.01,
+        "Penalaran": 200,
+        "Figural": 142.86
+        },
+    "total": 640.22
+    }
+]
+```
